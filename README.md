@@ -30,19 +30,19 @@ For functions, they are already stored inside memory even before executing our c
 There are two things, one is resigning and the other is redeclaring.
 
 Reassigning:
-\`\`\`
+```
 var x=10
 
 x=100
-\`\`\`
+```
 
 Redeclaring:
 
-\`\`\`
+```
 var x=10
 
 var x=100
-\`\`\`
+```
 
 *   Var -> resigning✅ redeclaring✅
     
@@ -69,7 +69,7 @@ x()
 
 console.log(a) // this will throw an error, saying a is not defined\`\`\`
 
-\`\`\`jsvar a=100;
+```var a=100;
 
 function x(){
 
@@ -79,7 +79,8 @@ function x(){
 
 x()
 
-console.log(a) // this will print hundred because we can find a inside global execution context with a value of hundred\`\`\`
+console.log(a) // this will print hundred because we can find a inside global execution context with a value of hundred
+```
 
 \`\`\`jsconsole.log(a) // in this example, the variable a is hoisted, but the output will be undefined because we are accessing it even before assigning something to it, so the default value of undefined will be printed
 
