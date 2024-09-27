@@ -29,15 +29,20 @@ For functions, they are already stored inside memory even before executing our c
 
 There are two things, one is resigning and the other is redeclaring.
 
-Reassigning:\`\`\`jsvar x=10
+Reassigning:
+\`\`\`
+var x=10
 
-x=100\`\`\`
+x=100
+\`\`\`
 
 Redeclaring:
 
-\`\`\`jsvar x=10
+\`\`\`
+var x=10
 
-var x=100\`\`\`
+var x=100
+\`\`\`
 
 *   Var -> resigning✅ redeclaring✅
     
