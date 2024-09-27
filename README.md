@@ -59,7 +59,8 @@ For var, whenever we create a var variable, it will be stored inside global exec
 
 But when we create a var variable inside a function, its scope will be limited to that function, so we cannot access that var variable outside the function. Because when we create a var variable inside function, it will be assigned some memory inside that function execution context, so if we try to access it outside the function, it will throw an error, saying that variable is not defined because that variable is not present inside global execution context.
 
-\`\`\`jsfunction x(){
+```
+function x(){
 
     var a=10
 
@@ -67,9 +68,11 @@ But when we create a var variable inside a function, its scope will be limited t
 
 x()
 
-console.log(a) // this will throw an error, saying a is not defined\`\`\`
+console.log(a) // this will throw an error, saying a is not defined
+```
 
-```var a=100;
+```
+var a=100;
 
 function x(){
 
@@ -82,23 +85,26 @@ x()
 console.log(a) // this will print hundred because we can find a inside global execution context with a value of hundred
 ```
 
-\`\`\`jsconsole.log(a) // in this example, the variable a is hoisted, but the output will be undefined because we are accessing it even before assigning something to it, so the default value of undefined will be printed
+```
+console.log(a) // in this example, the variable a is hoisted, but the output will be undefined because we are accessing it even before assigning something to it, so the default value of undefined will be printed
 
-var a=100;\`\`\`
+var a=100;
+```
 
 For let and const, both these kind of variables also gets hoisted, but when you try to access them, they will act different. and as a matter of fact, whenever we create let and const variables, they will be stored inside as separate object known as script, this is unlike var variables, which will be stored inside global object, also known as window.
 
-\`\`\`js
+```
 
 console.log(a) // this will give an error saying cannot access a before initialisation.
 
 let/const a=100;
 
-\`\`\`
+```
 
 We are getting the above error because of something known as **temporal dead zone**. temporal dead zone can be defined as the time period between a variable having undefined and then the same variable gets assigned some value. This in between time period is called temporal dead zone. And if you try to access the variable in this time period, it will throw the above error.
 
-For functions. Hoisting is possible, which means we can call a function even before defining it because during the memory creation phase, the whole function will be stored inside memory so we can access it just like usual.\`\`\`js
+For functions. Hoisting is possible, which means we can call a function even before defining it because during the memory creation phase, the whole function will be stored inside memory so we can access it just like usual.
+```
 
 a()
 
@@ -108,7 +114,7 @@ function a(){
 
 }
 
-\`\`\`
+```
 
 In conclusion, we can say that let, var and const are hoisted, but when we try to access them, they act differently because of where they are getting stored in the memory. Var will be stored in global object and let and const will be stored outside global object. And we cannot access them during temporal dead zone
 
@@ -118,7 +124,7 @@ Lexical scope can be defined as the combination of local scope and its parent sc
 
 Lexical scope and scope chaining is mostly used closures.
 
-\`\`\`js
+```
 
 function x(){
 
@@ -134,11 +140,13 @@ function x(){
 
 }
 
-x()\`\`\`
+x()
+```
 
 In the above example, we can say that the function Y is able to access the variable a with the help of lexical scope. And both functions X and Y together form a closure.
 
-\`\`\`jsfunction x(){
+```
+function x(){
 
     var a=10
 
@@ -156,7 +164,7 @@ const z=x()
 
 z()
 
-\`\`\`
+```
 
 Example, we are returning the function y, so whenever the function y is returned. Its lexical Scope will also be returned only because of this, we are able to access the variable a even outside the function X.(when we invoke the function X, it is returning another function y, so after the function X returns the function y, X will be removed from memory, with this in mind variable a will also vanish, but when y is getting returned. It's lexical scope is also getting returned and we will have a reference to the variable a inside that returned lexical scope, that's how we are able to access the variable a)
 
@@ -170,7 +178,8 @@ Lexical scope == local scope + parent’s scope
 
 **Notorious example off closure**
 
-\`\`\`jsfunction demo(){
+```
+function demo(){
 
     for(var i=1;i<=5;i++){
 
@@ -184,7 +193,8 @@ Lexical scope == local scope + parent’s scope
 
 }
 
-demo() // here we are expected that they will be 1 to 5 will be printed every second, instead 6 will be printed five times\`\`\`
+demo() // here we are expected that they will be 1 to 5 will be printed every second, instead 6 will be printed five times
+```
 
 Six is getting printed because for every copy of the timeout function, we are referencing the same variable i which is a global variable. And also Java script waits for nothing. So when the value of I is 1, the setTimeout function will be called again and even before it completes it's previous execution, the value of I becomes 2. This will continue to happen and 5 copies of setTimeout function is pushed into the stack. now the value of I is six inside global memory and once the timer runs out all the functions will print the value of I, but since all the functions are pointing the same global variable I, all those functions will print the value of six.
 
@@ -208,7 +218,8 @@ The ability to pass a function as an argument inside another function or the abi
 
 A function which is passed as an argument to another function is known as a callback function.
 
-\`\`\`jsfunction x(num,fn){  // the name of this parameter can be anything. In this case, it is fn
+```
+function x(num,fn){  // the name of this parameter can be anything. In this case, it is fn
 
     console.log(num)
 
@@ -220,7 +231,8 @@ x(10,function y(){
 
     console.log("y")
 
-})\`\`\`
+})
+```
 
 In the above, example, y can be called as a callback function because we are passing it as an argument to the function X. So we are calling function X and function X is calling function y.
 
@@ -262,7 +274,7 @@ It can be treated as a container that has all the things required to execute Jav
 
 **Concurrency model:**
 
-‘’’Js
+```
 
 console.log("start")
 
@@ -274,7 +286,8 @@ setTimeout(function cb(){
 
 console.log("end")
 
-// some piece of code which takes lot of time(say 10 sec) to execute\`\`\`
+// some piece of code which takes lot of time(say 10 sec) to execute
+```
 
 The output will be start end call back after ~10 seconds
 
@@ -286,7 +299,8 @@ This is because while executing the global execution context, when we reach the 
 
 The function which takes another function as an argument or a function which returns another function is known as a high order function.
 
-\`\`\`jsfunction processArray(arr, square) {
+```
+function processArray(arr, square) {
 
   return arr.map(square); // this will apply square function on every element of the array
 
@@ -301,8 +315,9 @@ function square(num) {
 const numbers = \[1, 2, 3, 4\];
 
 const squaredNumbers = processArray(numbers, square);  // \[1, 4, 9, 16\] here Square is a callback function and processArray is a higher order function
+```
 
-\`\`\`Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.
+Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.
 
 **Callback hell:**
 
@@ -319,7 +334,8 @@ const squaredNumbers = processArray(numbers, square);  // \[1, 4, 9, 16\] here 
 
 **Example of Callback Hell:**
 
-\`\`\`jsfunction getUser(userId, callback) {
+```
+function getUser(userId, callback) {
 
   setTimeout(() => {
 
@@ -371,7 +387,7 @@ getUser(1, (user) => {
 
 });
 
-\`\`\`
+```
 
 In the above example, we are calling get user function, get user function. Will call get orders function, and get orders function will call process payment function. So this is the problem with nested call back also known as call back hell.
 
@@ -399,7 +415,8 @@ Let's say there are two functions. One is add to cart and the other is proceeded
 
 So in order to implement this, we use callbacks. now we will pass. Proceed to payment function as a call back to add to cart function, and we will add to cart function and that will call proceed to payment function, so this is how we restored the execution order with the help of callbacks. Like this
 
-\`\`\`jsfunction addToCart( cb){
+```
+function addToCart( cb){
 
 cb();
 
@@ -411,23 +428,24 @@ proceedToPayment();
 
 })
 
-\`\`\`
+```
 
 But whenever our application grows and the number of functions increase, this will lead to the problem of callback hell.
 
 So in order to make things work without callback hell, we use promises.
 
-\`\`\`js
+```
 
-Const promise = addToCart();
+const promise = addToCart();
 
 promise.then(proceedToPayment())
 
-\`\`\`
+```
 
 In the above example, add to cart function will return a promise, and until that promise has some data in it, a default value of undefined will be stored. And once at returns, the data undefined will be replaced by that data. Now once the data is available, proceed to payment function will be called automatically by the promise object. In this way, restored the order of execution and proceeded to payment won't be called until add to cart returns data to the promise object.
 
-\`\`\`jsconst URL= "some url here"
+```
+const URL= "some url here"
 
 function printResult(data){
 
@@ -437,7 +455,8 @@ function printResult(data){
 
 const result=fetch(URL); // since fetch returns a promise, result will be a promise object.
 
-result.then((data)=>printResult(data))\`\`\`
+result.then((data)=>printResult(data))
+```
 
 Now when the code starts executing, we will call the fetch function with some URL since fetch returns a promise, result will be a promise object, which will have various fields like promise state, promise response etc. Until the promise is resolved and some data is assigned to the promise response. The state will be pending once the data is assigned state will be updated to fulfilled and if something goes wrong and the data is not returned, then the state will be rejected.
 
