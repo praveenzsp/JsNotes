@@ -239,6 +239,8 @@ In the above, example, y can be called as a callback function because we are pas
 With the help of call backs we can achieve asynchronicity in Java script. All these web APIs like setTimeout, setInterval help us achieve asynchronicity.
 
 In Java script, everything executes through the call stack.
+<img width="742" alt="Not paused" src="https://github.com/user-attachments/assets/2c8fee9c-8a98-4078-b24f-fb74d7b934b9">
+
 
 Output will be X and Y and after sometime timer will be printed. When we start executing the above code, firstly, set timeout function will be stored somewhere to execute it later. And when the execution reaches line number 11 function X will be called and control goes to line 7 now function, X will execute and prints X and then it will call function Y. Now the control reaches back to line 11 and function Y will be executed and it will print y. During this execution, both function X and Y comes into call stack and once they are finished, both functions will be popped. So now when the five second timer runs out. The set timeout function comes into call, stack and start executing now. It will print timer and then that function will be popped off the stack.
 
@@ -247,6 +249,8 @@ Since JavaScript is single threaded, we have to execute things in order, but if 
 **Asynchronous and Eventloop in JS:**
 
 Whenever a global execution context comes into the call stack it immediately executes that and it doesn't wait for anything. But while performing asynchronous operations we need to set some timers to our code, but we can’t do that with the help of call stack. so in order to achieve this web APIs comes into the picture. Examples of web APIs are set time out, fetch, local storage, location, console, DOM APIs. All these web API are provided by the browser. And all these web API reside inside window object, so they can be accessed with the help of window object like window.location etc
+<img width="1512" alt="Screenshot 2024-09-25 at 3 41 14 PM" src="https://github.com/user-attachments/assets/6a8547ea-ad69-4f3a-84ab-de7db97ab876">
+
 
 In the above, example, the output will be start end call back.
 
@@ -255,6 +259,8 @@ So when we start executing our court, initially, a global execution context will
 And once the 5000 ms timer runs out, we need to execute the callback function. But in order to execute the callback function, we need to create an execution context and push it into the call stack. And we can directly push the execution context into call stack, and here comes the call back queue. Call back queue stores the call back function inside it, and with the help of event loop we are able to push the callback function execution context into the call stack so that it can be executed and prints. Call back to the console.
 
 Here, event look act as a gatekeeper in putting the callback function inside call stack. It's only job is to check whether the call stack is empty or not if it is empty, it will take a call back function from call back queue and puts it into the call stack.
+<img width="1512" alt="Screenshot 2024-09-25 at 4 19 02 PM" src="https://github.com/user-attachments/assets/799c7214-70b0-4f2e-bdfa-3ae670268ffb">
+
 
 In this above example, output will be start end CB Netflix CB set timeout.
 
@@ -389,7 +395,7 @@ getUser(1, (user) => {
 
 ```
 
-In the above example, we are calling get user function, get user function. Will call get orders function, and get orders function will call process payment function. So this is the problem with nested call back also known as call back hell.
+In the above example, we are calling get user function, get user function Will call get orders function, and get orders function will call process payment function. So this is the problem with nested call back also known as call back hell.
 
 **Problems:**
 
@@ -461,5 +467,27 @@ result.then((data)=>printResult(data))
 Now when the code starts executing, we will call the fetch function with some URL since fetch returns a promise, result will be a promise object, which will have various fields like promise state, promise response etc. Until the promise is resolved and some data is assigned to the promise response. The state will be pending once the data is assigned state will be updated to fulfilled and if something goes wrong and the data is not returned, then the state will be rejected.
 
 Let's say, in our example, promise gets resolved, and the data is assigned properly to the promise response. So now we can access the data with the help of then function and whatever data we got response can be accessible inside then(). Since the promise is resolved, the promise object will now automatically call the printeResult call back function, which is inside then() along with the data we got from the API.
+<img width="1512" alt="Screenshot 2024-09-26 at 9 05 43 PM" src="https://github.com/user-attachments/assets/9ae5ca12-8d61-422c-8c65-5ea8383bfca1">
+
 
 In the above example, line number 3-9, includes a solution that uses callbacks. And the highlighted piece of code implements the same with the help of promises.
+<img width="1512" alt="Screenshot 2024-09-27 at 5 18 17 PM" src="https://github.com/user-attachments/assets/06ea3a3c-02cb-4b6b-aacb-07c879238d4f">
+
+In the above example, we are creating a function called create order, which will return as a promise. Now let's dive deep into how we create. Create order function, which returns a promise, we can create a new promise with the help of Promise class. So line number 13 indicates creation of a new promise. And this Promise is a constructor. And it takes a function as a call back and this callback function includes two things resolve and reject both. These are also functions. These are provided by Java script itself. Let's consider that our promise is resolved. So whatever data we want to pass to whoever called create order function we will pass that data using resolve method in line number 24. And if something goes wrong, our promise will be rejected and we can pass whatever the error with the help of rejected method in line number 19.
+
+So when we call create order function in line number three, it will return as a promise object. And if the promise resolved the promise, object will now have the requested data, and if the promise is rejected, the promise, object will store whatever error. Let's consider the promises resolved and we got the order ID. Now the promise object will call the call back function inside then and the call back function will call. Proceed to payment function with order ID as argument. And if the promise is rejected, then control will go to the catch block.
+
+So if your promise is resolved, control will go into the then function, and if the promise is rejected, control will go to catch function and whatever is present inside then function or catch function is then executed
+
+**Promise chaining:**
+
+<img width="1512" alt="Screenshot 2024-09-27 at 6 21 10 PM" src="https://github.com/user-attachments/assets/a05ed7de-00d7-47c7-a271-cb6ffd58ca40">
+
+
+The above example, create order function will return a promise. Now when the promise is resolved, then in line number four will be executed and ID will be printed to the and then we are passing order ID down the promise chain by returning it. So now line number eight can have access to order ID and we are calling proceed to payment function with order ID as argument. And proceed to payment function will also return a promise, and if that promise is resolved, control will go to line number 11, and we will print payment info to the console so that's how promise chaining works. We should pass the data around the chain if you want to access the data further in the chain.
+
+<img width="479" alt="Screenshot 2024-09-27 at 6 28 00 PM" src="https://github.com/user-attachments/assets/b84dd0bf-07e1-4cc4-834c-8995c8d52ea9">
+
+
+Catch method will only look after the then functions above it. So in this example the catch function will only look after first then function. The second and third then functions need to be looked after by another catch function at the end of them. Even if the catch executes because of some error above it, the second and third then functions will be executed. And if there is some error in second and third then functions, it will throw an error because we are not handling the error in second and third then functions.
+
