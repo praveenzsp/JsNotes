@@ -118,6 +118,27 @@ function a(){
 
 In conclusion, we can say that let, var and const are hoisted, but when we try to access them, they act differently because of where they are getting stored in the memory. Var will be stored in global object and let and const will be stored outside global object. And we cannot access them during temporal dead zone
 
+# **Block scope:**
+
+A block can be defined as a group of statements that are inside {}.
+
+Whenever we create a variable inside a block, instead of global object, it will be stored inside something known as block. So if we try to access those variables, we will get an error because they are present inside the block, but not in global object.
+
+Let and const have block scope.
+```
+{
+    let/const a=10
+}
+
+console.log(a) // this will cause an error because a is now block scoped and we cannot access it outside the block. but if a is var, we can access it even outside the block
+```
+
+The values which we pass during the function invocation are known as arguments
+
+And the placeholder, which receive the values in the function, signature or known as parameters
+
+The ability to pass a function as an argument inside another function or the ability to use functions, just like any values is known as first class function or first class citizen.
+
 # **Lexical scope and scope chaining:**
 
 Lexical scope can be defined as the combination of local scope and its parent scope. For example, if you can't find a variable in local scope, we will go to its parent’s scope to access it. And if we can't find that variable in parent scope too we will then go to the parent’s parent scope. This process of going from local to parent and parent to its parent is known as scope chaining.
@@ -247,20 +268,6 @@ demo() // here we are expected that they will be 1 to 5 will be printed every se
 Six is getting printed because for every copy of the timeout function, we are referencing the same variable i which is a global variable. And also Java script waits for nothing. So when the value of I is 1, the setTimeout function will be called again and even before it completes it's previous execution, the value of I becomes 2. This will continue to happen and 5 copies of setTimeout function is pushed into the stack. now the value of I is six inside global memory and once the timer runs out all the functions will print the value of I, but since all the functions are pointing the same global variable I, all those functions will print the value of six.
 
 If we want to print the numbers. 1 to 5, we should change the type of the variable I to let. since let variables are block scoped, for every copy of the set time out function call, a new variable, I will be created in the memory. So now every copy of the function is having its own variable i,
-
-# **Block scope:**
-
-A block can be defined as a group of statements that are inside {}.
-
-Whenever we create a variable inside a block, instead of global object, it will be stored inside something known as block. So if we try to access those variables, we will get an error because they are present inside the block, but not in global object.
-
-Let and const have block scope.
-
-The values which we pass during the function invocation are known as arguments
-
-And the placeholder, which receive the values in the function, signature or known as parameters
-
-The ability to pass a function as an argument inside another function or the ability to use functions, just like any values is known as first class function or first class citizen
 
 # **Callbacks:**
 
