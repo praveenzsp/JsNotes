@@ -4,12 +4,12 @@ In Java script, everything happens inside an execution context
 
 Inside execution context, there are two phases
 
-*   Phase 1 is <span style="color: blue;">memory creation</span>
+*   Phase 1 is `memory creation`
     
 *   Phase 2 is code execution, also known as thread of execution
     
 
-**Memory creation phase**
+# **Memory creation phase**
 
 Even before running any Java script code, all the variables and functions in our source code will be allotted some memory inside global execution context and that global execution context will be pushed into the call stack.
 
@@ -17,7 +17,7 @@ For variables, a default value of undefined is assigned and for functions, the w
 
 The next step is code execution.
 
-**Code execution phase**
+# **Code execution phase**
 
 Since Javascript is synchronous and single threaded, code is executed line by line. 
 
@@ -25,7 +25,7 @@ For variables, the value which we are assigning in our code will replace the def
 
 For functions, they are already stored inside memory even before executing our code. So whenever we invoke the function and new global execution context for that specific function will be created inside the global context and that function specific education context will be pushed into the call stack and once that function, returns something. It will be popped off the stack and that specific function execution context will be garbage collected.
 
-**Rules of let, var and const:**
+# **Rules of let, var and const:**
 
 There are two things, one is resigning and the other is redeclaring.
 
@@ -51,7 +51,7 @@ var x=100
 *   Const -> resigning❌ redeclaring❌
     
 
-**Hoisting**
+# **Hoisting**
 
 In simple terms, hoisting can be considered as allocating memory to the variables or functions. So all the variables like var, let and const will be hoisted during memory creation phase. But each of those variables act differently while code execution phase.
 
@@ -118,11 +118,11 @@ function a(){
 
 In conclusion, we can say that let, var and const are hoisted, but when we try to access them, they act differently because of where they are getting stored in the memory. Var will be stored in global object and let and const will be stored outside global object. And we cannot access them during temporal dead zone
 
-**Lexical scope and scope chaining:**
+# **Lexical scope and scope chaining:**
 
 Lexical scope can be defined as the combination of local scope and its parent scope. For example, if you can't find a variable in local scope, we will go to its parent’s scope to access it. And if we can't find that variable in parent scope too we will then go to the parent’s parent scope. This process of going from local to parent and parent to its parent is known as scope chaining.
 
-Lexical scope and scope chaining is mostly used closures.
+Lexical scope and scope chaining is mostly used in closures.
 
 ```
 
@@ -143,7 +143,7 @@ function x(){
 x()
 ```
 
-In the above example, we can say that the function Y is able to access the variable a with the help of lexical scope. And both functions X and Y together form a closure.
+In the above example, we can see that the function Y is able to access the variable a with the help of lexical scope. And both functions X and Y together form a closure.
 
 ```
 function x(){
@@ -170,13 +170,61 @@ Example, we are returning the function y, so whenever the function y is returned
 
 So whenever a function, which is part of the closure is returned, its lexical scope will also be returned and we can access variables and functions that are inside that returned lexical scope.
 
-**Closures:**
+# **Closures:**
 
 A function which is bundled together along with its lexical scope, forms a closure.
 
 Lexical scope == local scope + parent’s scope
 
-**Notorious example off closure**
+Lexical scope and scope chaining is mostly used in closures.
+
+```
+
+function x(){
+
+    var a=10
+
+    function y(){
+
+        console.log(a) // prints 10
+
+    }
+
+    y()
+
+}
+
+x()
+```
+
+In the above example, we can see that the function Y is able to access the variable a with the help of lexical scope. And both functions X and Y together form a closure.
+
+```
+function x(){
+
+    var a=10
+
+    function y(){
+
+        console.log(a) // prints 10
+
+    }
+
+    return y
+
+}
+
+const z=x()
+
+z()
+
+```
+
+Example, we are returning the function y, so whenever the function y is returned. Its lexical Scope will also be returned only because of this, we are able to access the variable a even outside the function X.(when we invoke the function X, it is returning another function y, so after the function X returns the function y, X will be removed from memory, with this in mind variable a will also vanish, but when y is getting returned. It's lexical scope is also getting returned and we will have a reference to the variable a inside that returned lexical scope, that's how we are able to access the variable a)
+
+So whenever a function, which is part of the closure is returned, its lexical scope will also be returned and we can access variables and functions that are inside that returned lexical scope.
+
+## **Notorious example off closure**
 
 ```
 function demo(){
@@ -200,7 +248,7 @@ Six is getting printed because for every copy of the timeout function, we are re
 
 If we want to print the numbers. 1 to 5, we should change the type of the variable I to let. since let variables are block scoped, for every copy of the set time out function call, a new variable, I will be created in the memory. So now every copy of the function is having its own variable i,
 
-**Block scope:**
+# **Block scope:**
 
 A block can be defined as a group of statements that are inside {}.
 
@@ -214,7 +262,7 @@ And the placeholder, which receive the values in the function, signature or know
 
 The ability to pass a function as an argument inside another function or the ability to use functions, just like any values is known as first class function or first class citizen
 
-**Callbacks:**
+# **Callbacks:**
 
 A function which is passed as an argument to another function is known as a callback function.
 
@@ -246,7 +294,7 @@ Output will be X and Y and after sometime timer will be printed. When we start e
 
 Since JavaScript is single threaded, we have to execute things in order, but if there comes a heavy computing function, the rest of the code will be blocked from executing until that heavy computing function, complete its execution. This is what known as main thread blocking. in order to avoid this we use asynchronous operations.
 
-**Asynchronous and Eventloop in JS:**
+# **Asynchronous and Eventloop in JS:**
 
 Whenever a global execution context comes into the call stack it immediately executes that and it doesn't wait for anything. But while performing asynchronous operations we need to set some timers to our code, but we can’t do that with the help of call stack. so in order to achieve this web APIs comes into the picture. Examples of web APIs are set time out, fetch, local storage, location, console, DOM APIs. All these web API are provided by the browser. And all these web API reside inside window object, so they can be accessed with the help of window object like window.location etc
 <img width="1512" alt="Screenshot 2024-09-25 at 3 41 14 PM" src="https://github.com/user-attachments/assets/6a8547ea-ad69-4f3a-84ab-de7db97ab876">
@@ -274,11 +322,11 @@ Now the event loop will push the set time out call back function into call stack
 
 When there are lot of tasks inside the micro task queue, it will make the callback function inside. Call back Q to wait for a long time. This is known as starvation.
 
-**Java script runtime environment** 
+# **Java script runtime environment** 
 
 It can be treated as a container that has all the things required to execute Java script code. It includes things like Java script, engine, event loop, web API, call back Q, micro task Q etc
 
-**Concurrency model:**
+# **Concurrency model:**
 
 ```
 
@@ -301,7 +349,7 @@ Here we are expected to see call back printed on the control after five seconds,
 
 This is because while executing the global execution context, when we reach the last line, it takes around 10 seconds to complete its execution. So after 10 seconds, the global execution context will be popped off the call stack. but by the time, the global execution context complete its execution the timer of 5000 ms have already passed. But we can't execute the callback function right after 5000 ms because the call stack is not yet empty. It is still executing that heavy computing code so after completing the heavy computing code, only then the callback function will be pushed into the call stack and then it will be executed. So instead of five seconds, call back will be printed after 10 seconds, this is known as concur model. 
 
-**Higher order functions:**
+# **Higher order functions:**
 
 The function which takes another function as an argument or a function which returns another function is known as a high order function.
 
@@ -325,7 +373,7 @@ const squaredNumbers = processArray(numbers, square);  // \[1, 4, 9, 16\] here 
 
 Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.Here, processArray is a higher-order function because it accepts a function (callback) as an argument. The square function is passed in as the callback to apply to each element of the array.
 
-**Callback hell:**
+# **Callback hell:**
 
 **Callback Hell** refers to the situation where multiple nested callbacks make the code hard to read and maintain. This usually happens in asynchronous JavaScript when you have to perform sequential tasks, and each task depends on the result of the previous one, leading to deeply nested callbacks.
 
@@ -338,7 +386,7 @@ Here, processArray is a higher-order function because it accepts a function (cal
 *   Can be avoided using Promises or async/await.
     
 
-**Example of Callback Hell:**
+## **Example of Callback Hell:**
 
 ```
 function getUser(userId, callback) {
@@ -397,21 +445,21 @@ getUser(1, (user) => {
 
 In the above example, we are calling get user function, get user function Will call get orders function, and get orders function will call process payment function. So this is the problem with nested call back also known as call back hell.
 
-**Problems:**
+## **Problems:**
 
 *   **Hard to Read**: Code becomes more indented and harder to follow.
     
 *   **Difficult to Debug**: Tracing errors can be complicated due to deep nesting.
     
 
-**Solutions:**
+## **Solutions:**
 
 1.  **Using Promises**: Promises provide a cleaner way to handle asynchronous code.
     
 2.  **async/await**: Allows writing asynchronous code that looks more like synchronous code.
     
 
-**Promises:**
+# **Promises:**
 
 A promise is an object which will store the result of an asynchronous operation. its value might be undefined for now, but it might change in the future.
 
@@ -479,7 +527,7 @@ So when we call create order function in line number three, it will return as a 
 
 So if your promise is resolved, control will go into the then function, and if the promise is rejected, control will go to catch function and whatever is present inside then function or catch function is then executed
 
-**Promise chaining:**
+# **Promise chaining:**
 
 <img width="1512" alt="Screenshot 2024-09-27 at 6 21 10 PM" src="https://github.com/user-attachments/assets/a05ed7de-00d7-47c7-a271-cb6ffd58ca40">
 
