@@ -4,7 +4,7 @@ In Java script, everything happens inside an execution context
 
 Inside execution context, there are two phases
 
-*   Phase 1 is memory creation
+*   Phase 1 is <span style="color: blue;">memory creation</span>
     
 *   Phase 2 is code execution, also known as thread of execution
     
