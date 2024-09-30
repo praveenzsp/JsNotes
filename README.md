@@ -546,7 +546,7 @@ The above example, create order function will return a promise. Now when the pro
 
 Catch method will only look after the then functions above it. So in this example the catch function will only look after first then function. The second and third then functions need to be looked after by another catch function at the end of them. Even if the catch executes because of some error above it, the second and third then functions will be executed. And if there is some error in second and third then functions, it will throw an error because we are not handling the error in second and third then functions.
 
-Promise APIs:
+### Promise APIs:
 
 ``` const p1=new Promise(function(resolve, reject){
     setTimeout(()=>resolve("P1 resolved"))
@@ -579,10 +579,11 @@ Promise.race([p1,p2,p3]) // whether success or failure, it will return the outpu
 .then(res=>console.log(res))
 
 Promise.any([p1,p2,p3]) // it will always look for first success.if all promises fail, it will throw an  combined error
-.then(res=>console.log(res)) ```
+.then(res=>console.log(res))
+```
 
 
-Async & await:
+### Async & await:
 
 Async is a keyword that is used before a function, and that function will be treated as an async function. And async function must return a promise, and if we try to return some value, it will be wrapped inside a promise, and that promise will be returned
 
@@ -613,9 +614,9 @@ async function handleData(){
 handleData() //this will print promise resolved, and another promise resolved. Here we are using a keyboard before promise object P, and we can also use await keyword before a promise as well
 ```
 
-Difference between handling promises with then() and async & await:
+### Difference between handling promises with then() and async & await:
 
-Using then():
+## Using then():
 
 ```
 const p=new Promise(function(resolve,reject){
@@ -636,7 +637,8 @@ In the above example, hello world will be printed first and after five seconds, 
 
 Using async & await:
 
-``` const p=new Promise(function(resolve,reject){
+```
+const p=new Promise(function(resolve,reject){
     setTimeout(()=>{
         resolve("promise resolved")
     },5000)
@@ -648,7 +650,8 @@ async function handleData(){
     console.log(val1)
 }
 
-handleData() ```
+handleData()
+```
 
 In the above example, hello world and promise resolved will be printed after five seconds. When we call handle data function control will reach over. So now we will wait at line x until the promise gets resolved, and then only we will move onto the next line. So we will wait for five seconds at line x and then we will move onto next line. So after five seconds, hello world will be printed and promise resolved will also be printed
 
@@ -656,7 +659,8 @@ The key difference between then() and asynchronous await is that while using the
 
 Some more examples:
 
-``` const p=new Promise(function(resolve,reject){
+```
+const p=new Promise(function(resolve,reject){
     setTimeout(()=>{
         resolve("promise resolved")
     },5000)
@@ -669,9 +673,11 @@ async function handleData(){
     console.log(val1)
 }
 
-handleData() ```
+handleData() 
+```
 
-``` const p=new Promise(function(resolve,reject){
+```
+const p=new Promise(function(resolve,reject){
     setTimeout(()=>{
         resolve("promise resolved")
     },5000)
@@ -752,3 +758,42 @@ We are telling that we are waiting at a certain line until the promise gets reso
 When we say that we are waiting at a certain line, we doesn't actually mean it. So Java script engine doesn't wait until a promise is resolved. If we wait until a promise is resolved, we are blocking the main thread which we shouldn't do in Java script. So instead, Java script does something which resembles that we are waiting at a certain line.
 So whenever our function handle data goes into call stack, it starts its execution. But when it encounters await, the whole function will now be suspended, which means it will be taken out of the call stack. And once the specific promise gets resolved, then the function handle data will come again into the call stack and resume its execution from where it was left before. So this is how async and await works behind the scene. So this suspending and resuming the execution resembles that we are waiting at that certain line.
 
+
+### E-commerce example using async & await:
+
+```
+const createOrder= async (product)=>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            resolve(product+" order created")
+        },2000)
+    })
+}
+
+const proceedToPayment= async (orderData)=>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            orderData.includes("Iphone")?resolve("payment success"): reject("payment failed")
+        },3000)
+    })
+}
+
+const orderSummary= async (product, paymentInfo)=>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            paymentInfo.includes("success")?resolve("Here's the order summary of "+product): reject("Something went wrong")
+        },3000)
+    })
+}
+const buyProduct=async (product)=>{
+    const orderData= await createOrder(product)
+    const paymentInfo= await proceedToPayment(orderData)
+    const orderSummaryData= await orderSummary(product, paymentInfo)
+}
+
+const product="Iphone"
+buyProduct(product)
+```
+* createOrder: Logs "Iphone order created" after 2 seconds.
+* proceedToPayment: Logs "payment success" after an additional 3 seconds.
+* orderSummary: Logs "Here's the order summary of Iphone" after an additional 3 seconds.
