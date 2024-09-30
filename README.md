@@ -546,3 +546,209 @@ The above example, create order function will return a promise. Now when the pro
 
 Catch method will only look after the then functions above it. So in this example the catch function will only look after first then function. The second and third then functions need to be looked after by another catch function at the end of them. Even if the catch executes because of some error above it, the second and third then functions will be executed. And if there is some error in second and third then functions, it will throw an error because we are not handling the error in second and third then functions.
 
+Promise APIs:
+
+``` const p1=new Promise(function(resolve, reject){
+    setTimeout(()=>resolve("P1 resolved"))
+},1000)
+
+const p2=new Promise(function(resolve, reject){
+    setTimeout(()=>resolve("P2 resolved"))
+},2000)
+
+const p3=new Promise(function(resolve, reject){
+    setTimeout(()=>resolve("P3 resolved"))
+},5000)
+
+Promise.all([p1,p2,p3]) // if all promises are resolved, it will return an array of outputs like [ 'P1 resolved', 'P2 resolved', 'P3 resolved' ]. if any one of the promise is rejected it will throw an error
+.then(res=>console.log(res))
+
+Promise.allSettled([p1,p2,p3]) // basically it returns array of output after all promises are settled(resolved or rejected) or not.
+    // if all promises are resolved, it will return an array of outputs like [
+    //{ status: 'fulfilled', value: 'P1 resolved' },
+    // { status: 'fulfilled', value: 'P2 resolved' },
+    // { status: 'fulfilled', value: 'P3 resolved' }]. if any one of the promise is rejected this is the output [
+    //   { status: 'fulfilled', value: 'P1 resolved' },
+    //   { status: 'fulfilled', value: 'P2 resolved' },
+    //   { status: 'rejected', reason: 'P3 rejected' }
+    // ]
+.then(res=>console.log(res))
+
+
+Promise.race([p1,p2,p3]) // whether success or failure, it will return the output of first settled(completed) promise.
+.then(res=>console.log(res))
+
+Promise.any([p1,p2,p3]) // it will always look for first success.if all promises fail, it will throw an  combined error
+.then(res=>console.log(res)) ```
+
+
+Async & await:
+
+Async is a keyword that is used before a function, and that function will be treated as an async function. And async function must return a promise, and if we try to return some value, it will be wrapped inside a promise, and that promise will be returned
+
+```
+// always returns a promise
+async function getData() {
+return "Namaste"; // even though we are returning a value, it will be wrapped inside a promise, and that promise will be returned
+｝
+const dataPromise = getData();
+dataPromise.then((res) → console. log(res)); // will print Namaste
+```
+
+Await(simply means wait at that line until the promise gets resolved)keyword is used before a promise or a promise object. And await keyboard can be used only inside an async function.
+
+```
+const p=new Promise(function(resolve,reject){
+    resolve("promise resolved")
+})
+
+async function handleData(){
+    const val1=await p;
+    const val2=await new Promise(function(resolve,reject){
+        resolve("another promise resolved")
+    })
+    console.log(val1, val2)
+}
+
+handleData() //this will print promise resolved, and another promise resolved. Here we are using a keyboard before promise object P, and we can also use await keyword before a promise as well
+```
+
+Difference between handling promises with then() and async & await:
+
+Using then():
+
+```
+const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+function handleData(){
+    p.then(res=>console.log(res)) // we will not wait here until p resolves
+    console.log("hello world")
+}
+
+handleData()
+```
+
+In the above example, hello world will be printed first and after five seconds, promise resolved will be printed. Inside handle data function, we are waiting for the promise P to be resolved, but it will take five seconds for the promise P to be resolved. Since Java script waits for none, it will move on to the next line and print, hello world. And after five seconds, the promise will be resolved and then promise resolved will be printed. This is how we used to handle promises using then().
+
+Using async & await:
+
+``` const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+async function handleData(){
+// line x    const val1=await p; // we will wait here until p resolves
+    console.log("hello world")
+    console.log(val1)
+}
+
+handleData() ```
+
+In the above example, hello world and promise resolved will be printed after five seconds. When we call handle data function control will reach over. So now we will wait at line x until the promise gets resolved, and then only we will move onto the next line. So we will wait for five seconds at line x and then we will move onto next line. So after five seconds, hello world will be printed and promise resolved will also be printed
+
+The key difference between then() and asynchronous await is that while using then() we will not wait for the promise to be resolved, and immediately we will move to the next line. And while using async await, we will wait until the promise gets resolved, and only then we will move the next line.
+
+Some more examples:
+
+``` const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+async function handleData(){
+    console.log("Hey")  // Hey Will be printed immediately.
+    const val1=await p; // will wait for 5 sec
+    console.log("hello world") // after 5 sec, hello world and promise resolved are printed
+    console.log(val1)
+}
+
+handleData() ```
+
+``` const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+async function handleData(){
+    console.log("Hey") // Hey Will be printed immediately
+    const val1=await p; // wait for five seconds, for the promise to be resolved
+    console.log("hello world 1") // after five seconds, hello world 1 and promise resolved will be printed
+    console.log(val1)
+    
+    const val2=await p; // we will not wait here for five seconds because promise P is already resolved above. So we will move to next line immediately.
+    console.log("hello world 2") // prints hello, world 2 and promise resolved without any wait
+    console.log(val1)
+}
+
+handleData() // hey will be printed and after five seconds, there will be four console logs, namely hello world1, promise resolved, hello world 2, promise resolved.
+```
+
+```
+const p1=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },10000)
+})
+
+const p2=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+async function handleData(){
+    console.log("Hey") // prints Hey immediately
+    const val1=await p1;  // waits for 10 sec
+    console.log("hello world 1") // after 10 sec, hello world 1 and promise resolved is printed
+    console.log(val1)
+    
+    const val2=await p2; // we don’t need to wait here, because p2 is already resolved by the time p1 gets resolved. Because p1 takes 10 secs and p2 takes <10 sec
+    console.log("hello world 2") // even though p2 is resolved in 5 sec, hello world 2 and promise resolved will be printed after 10 seconds.
+    console.log(val1)
+}
+
+handleData() // it will print hey immediately, and after 10 seconds, there will be four console logs, namely, hello world 1, promise resolved, hello world 2, promise,resolved
+```
+
+Now let's change the timers, P1 takes five seconds and P2 takes 10 seconds
+
+```
+const p1=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+const p2=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },10000)
+})
+
+async function handleData(){
+    console.log("Hey") // Hey will be printed immediately
+    const val1=await p1; // will wait for five seconds
+    console.log("hello world 1") // after five seconds, hello world 1 and promise resolved will be printed
+    console.log(val1)
+    
+    const val2=await p2; // by the time, P1 resolves, P2 also spent five seconds waiting, now P2 is left with another five seconds for it to be resolved
+    console.log("hello world 2") // after waiting another five seconds, hello world 2 and promise resolved will be printed
+    console.log(val1)
+}
+
+handleData() // this will print Hey immediately and after five seconds, hello world 1 and promise resolved will be printed. and after another five seconds, hello world 2 and promise resolved will be printed
+```
+    
+We are telling that we are waiting at a certain line until the promise gets resolved. But we know that Java script doesn't wait for anything, so how is this waiting possible then?.
+
+When we say that we are waiting at a certain line, we doesn't actually mean it. So Java script engine doesn't wait until a promise is resolved. If we wait until a promise is resolved, we are blocking the main thread which we shouldn't do in Java script. So instead, Java script does something which resembles that we are waiting at a certain line.
+So whenever our function handle data goes into call stack, it starts its execution. But when it encounters await, the whole function will now be suspended, which means it will be taken out of the call stack. And once the specific promise gets resolved, then the function handle data will come again into the call stack and resume its execution from where it was left before. So this is how async and await works behind the scene. So this suspending and resuming the execution resembles that we are waiting at that certain line.
+
