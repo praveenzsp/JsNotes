@@ -822,8 +822,7 @@ handleData() // this will print Hey immediately and after five seconds, hello wo
 We are telling that we are waiting at a certain line until the promise gets resolved. But we know that Java script doesn't wait for anything, so how is this waiting possible then?.
 
 When we say that we are waiting at a certain line, we doesn't actually mean it. So Java script engine doesn't wait until a promise is resolved. If we wait until a promise is resolved, we are blocking the main thread which we shouldn't do in Java script. So instead, Java script does something which resembles that we are waiting at a certain line.
-So whenever our function handle data goes into call stack, it starts its execution. But when it encounters await, the whole function will now be suspended, which means it will be taken out of the call stack. And once the specific promise gets resolved, then the function handle data will come again into the call stack and resume its execution from where it was left before. So this is how async and await works behind the scene. So this suspending and resuming the execution resembles that we are waiting at that certain line.
-
+So whenever our function handle data goes into call stack, it starts its execution. But when it encounters await, the whole function will now be suspended, which means it will be taken out of the call stack.And once handleData is popped we can execute the rest of the code in our GEC.and once GEC is completed and popped off the stack,we'll check if our promise is resolved or not, if it is resolved then we'll put handleData() in call stack and execute it. even if promise is resolved before completely executing GEC, we can't run the promise. Because by the time promise resolved, call stack is still busy running the code of GEC. SO only after popping GEC we can push our handleData() into call stack and resume the execution
 
 ### E-commerce example using async & await:
 
