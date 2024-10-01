@@ -296,7 +296,7 @@ With the help of call backs we can achieve asynchronicity in Java script. All th
 In Java script, everything executes through the call stack.
 <img width="742" alt="Not paused" src="https://github.com/user-attachments/assets/2c8fee9c-8a98-4078-b24f-fb74d7b934b9">
 
-
+For practical execution visit this http://latentflip.com/loupe
 Output will be X and Y and after sometime timer will be printed. When we start executing the above code, firstly, set timeout function will be stored somewhere to execute it later. And when the execution reaches line number 11 function X will be called and control goes to line 7 now function, X will execute and prints X and then it will call function Y. Now the control reaches back to line 11 and function Y will be executed and it will print y. During this execution, both function X and Y comes into call stack and once they are finished, both functions will be popped. So now when the five second timer runs out. The set timeout function comes into call, stack and start executing now. It will print timer and then that function will be popped off the stack.
 
 Since JavaScript is single threaded, we have to execute things in order, but if there comes a heavy computing function, the rest of the code will be blocked from executing until that heavy computing function, complete its execution. This is what known as main thread blocking. in order to avoid this we use asynchronous operations.
