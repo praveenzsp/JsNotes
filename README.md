@@ -351,6 +351,7 @@ console.log("end")
 ```
 
 The output will be start end call back after ~10 seconds
+For practical execution visit this link http://latentflip.com/loupe
 
 Here we are expected to see call back printed on the control after five seconds, but we are seeing call back printed on the console after 10 seconds.
 
