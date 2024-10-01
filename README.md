@@ -659,6 +659,71 @@ In the above example, hello world and promise resolved will be printed after fiv
 The key difference between then() and asynchronous await is that while using then() we will not wait for the promise to be resolved, and immediately we will move to the next line. And while using async await, we will wait until the promise gets resolved, and only then we will move the next line.
 
 Some more examples:
+```
+const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+async function handleData(){
+    const res=await p; // this handleData will be suspended from call stack until p resolves(takes 5 sec), once handleData is removed fom call stack we can execute other lines of code in our program like console.log("after main")
+    console.log(res)
+    console.log("hello world")
+}
+
+handleData()
+console.log("after main")
+```
+ in the above example, first we'll call handleData(), now when we see await, handleData() will be suspended from call stack and it will once p is resolved, which means handleData() will again come into call stack after 5 sec( because p takes 5 sec to resolve) and resumes its execution, since JS waits for none, during this 5 sec wait time, JS engine will execute the lines after handleData() function call. So the output will be after main, promise rsolved and bhello world will be printed after 5 sec.
+
+```
+const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },5000)
+})
+
+ function handleData(){
+    p.then(res=>console.log(res))
+    console.log("hello world")
+}
+
+handleData()
+console.log("after main")
+```
+ in the above example, when we call handleData(), if p is resolved we wil print its value, but p takes 5 sec to resolve, so instead we'll move to next line and prints hello world and there's nothing after that, so control reaches last line and prints after main and after 5 sec p is resolved, then promise resolved is printed.
+
+
+ ### we cannot execute the lines after await promiseObject line until promiseObject resolves, meanwhile we can execute code which is present in global execution context.
+### we can execute the lines after then() even if promise is not resolved at that moment,meanwhile we can execute the code which is present in global execution context.
+## Example for above statements:
+```
+const p=new Promise(function(resolve,reject){
+    setTimeout(()=>{
+        resolve("promise resolved")
+    },1000)
+})
+
+  async function handleData(){
+    const res=await p;
+    console.log(res)
+    console.log("hello world")
+}
+
+handleData()
+console.log("after main")
+let a=0
+for(let i=0;i<10000000000;i++){
+    a+=1
+}
+console.log("last")
+```
+output will be: after main, last (after for loop completes), promise resolved, hello world. when we call handleData() control goes to await line. since p is not resolved yet we can't run the next 2 console logs.so until p resolves we will execute our remaining code in GEC. so after main will be printed. next for loop goes on and lets say it takes more time than time taken by p to resolve.so p is now resolved while our for loop is running, but we can't just print res and hello world yet, because our call stack is still filled with GEC which is currently running for loop.after loop completes, we will print last.Now our GEC will be popped oof the call stack. finally we can now place our handleData() inside call stack and resume it execution, now it will print promise resolved and hello world.
+Even though our promise is resolved in 1 sec, we can't print res and hello world. because call stack is occuoied by GEC, only after call stack is empty again we can push handleData into it and execute the rest of the code.
+
+Anothe example is if we try to remove async await and use then() the the output will be: hello world, after main, last, promise resolved.
+hello world is printed first because then() allows the next lines to run even if promise is not yet resolved.and for remaining output read above reasoning(above paragraph)
 
 ```
 const p=new Promise(function(resolve,reject){
