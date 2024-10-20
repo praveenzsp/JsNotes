@@ -862,3 +862,28 @@ buyProduct(product)
 * createOrder: Logs "Iphone order created" after 2 seconds.
 * proceedToPayment: Logs "payment success" after an additional 3 seconds.
 * orderSummary: Logs "Here's the order summary of Iphone" after an additional 3 seconds.
+
+
+### Debouncing
+Whenever I usually typing something, many API calls will happen. For example, if a user is typing pizza and API call will happen with P. Then another API call will happen with PI and then another API call will happen with PIZ and this goes on. So this isn't a good practice making so many API calls. This is where the bouncing comes into picture, which will reduce the number of API calls.
+
+The way de bouncing works is, we will call the API only after the user has stopped typing. We won't call the API if the user is still typing. This will make sure that a single API call is happening.
+
+## Execution:
+```
+let timeout
+function debouncedFun(){
+    clearTimeout(timeout)
+    setTimeout(()=>{
+        actualFun()
+    }, 1000)
+}
+
+function actualFun(){
+    // making the api call here
+}
+
+<input onInput/onChange=debouncedFun()/>
+```
+First, when the user is typing, we will call the debounced function, and that debounced function will call the actual function after one second, which will make the API call. But when the user is typing debounced function will be called multiple times, but until the user stops typing, we should not call the actual function. So we will create a global timer variable called timeout. Whenever debounced function is called multiple times, The previous timer will be cleared and a new timer will be set. This way. We can call the actual function after one second, once the user stopped typing.
+So now, if the user stop typing and once again have passed, then the actual function will be called. This way, we can reduce the total number of API calls.
